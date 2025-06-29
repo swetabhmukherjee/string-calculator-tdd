@@ -1,10 +1,19 @@
 function add(input) {
-  const delimiter = /,|\n/;
-  const parts = input.split(delimiter);
   if (input === '') return 0;
 
-  if (parts.length === 1) return parseInt(parts[0], 10);
-  return parts.reduce((sum, n) => sum + parseInt(n, 10), 0);
+  let delimiter = /,|\n/;
+  let numbers = input;
+
+  if (input.startsWith('//')) {
+    const [_, delim, rest] = input.match(/^\/\/(.+)\n([\s\S]*)$/);
+    delimiter = new RegExp(delim);
+    numbers = rest;
+  }
+
+  return numbers
+    .split(delimiter)
+    .reduce((sum, n) => sum + parseInt(n, 10), 0);
 }
+
 
 module.exports = { add };
